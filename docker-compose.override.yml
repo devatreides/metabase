@@ -1,0 +1,27 @@
+version: '3'
+services:
+  metabase:
+    depends_on:
+      - metabasecoredb
+  metabasecoredb:
+    image: 'mariadb:10.3'
+    ports:
+      - '${FORWARD_METABASE_DB_PORT:-3330}:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: '${DB_METABASE_PASSWORD}'
+      MYSQL_DATABASE: '${DB_METABASE_DATABASE}'
+      MYSQL_USER: '${DB_METABASE_USERNAME}'
+      MYSQL_PASSWORD: '${DB_METABASE_PASSWORD}'
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    volumes:
+      - 'metabasecoredb:/var/lib/mysql'
+    networks:
+      - metabase
+    healthcheck:
+      test:
+        - CMD
+        - mysqladmin
+        - ping
+volumes:
+  metabasecoredb:
+    driver: local

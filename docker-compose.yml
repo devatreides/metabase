@@ -1,0 +1,24 @@
+version: '3'
+services:
+  metabase:
+    image: 'metabase/metabase:latest'
+    environment:
+      MB_DB_TYPE: '${DB_METABASE_CONNECTION}'
+      MB_DB_HOST: '${DB_METABASE_HOST}'
+      MB_DB_DBNAME: '${DB_METABASE_DATABASE}'
+      MB_DB_PORT: '${DB_METABASE_PORT}'
+      MB_DB_USER: '${DB_METABASE_USERNAME}'
+      MB_DB_PASS: '${DB_METABASE_PASSWORD}'
+      JAVA_TIMEZONE: 'America/Sao_Paulo'
+    ports:
+      - '${FORWARD_METABASE_PORT:-3000}:3000'
+    volumes:
+      - 'metabase:/metabase-data'
+    networks:
+      - metabase
+volumes:
+  metabase:
+    driver: local
+networks:
+  metabase:
+    driver: bridge
