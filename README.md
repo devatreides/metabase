@@ -1,2 +1,2 @@
 # metabase
-Testing metabase tool
+Docker compose setup for Metabase
